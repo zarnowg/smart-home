@@ -1,12 +1,13 @@
 import { useBoilerStatus, useMixers } from '../api/hooks'
 import { StatusPill } from '../components/StatusPill'
-import { HouseCards } from '../house/HouseCards'
-import { HouseIllustration } from '../house/HouseIllustration'
+import { HOUSE_VIEWS } from '../house/houseViews'
+import { ViewSwitcher } from '../house/ViewSwitcher'
 import styles from './HousePage.module.css'
 
-export function HousePage() {
+export function HousePage({ viewId }: { viewId: string }) {
   const status = useBoilerStatus()
   const mixers = useMixers()
+  const view = HOUSE_VIEWS.find((candidate) => candidate.id === viewId) ?? HOUSE_VIEWS[0]
 
   return (
     <div className={styles.page}>
@@ -16,9 +17,10 @@ export function HousePage() {
         isError={status.isError || mixers.isError}
         isFetching={status.isFetching || mixers.isFetching}
         outdoorTemperature={status.data?.outdoorTemperature}
+        showBoiler={view.boilerInfo}
       />
-      <HouseIllustration status={status.data} mixers={mixers.data} />
-      <HouseCards status={status.data} mixers={mixers.data} />
+      <ViewSwitcher activeId={view.id} />
+      <view.Component />
     </div>
   )
 }

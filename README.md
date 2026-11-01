@@ -5,7 +5,10 @@
 
 ## Web app pages
 
-- `/dom` – 3D (isometric) house with live values: boiler, hot water and both mixers in the basement, each with its set value (for example `66,4 °C / 65 °C`). Each mixer also has a small gauge with its valve opening (0–100 %). A colour tag (M1, M2) shows which floor each mixer heats. Below it: cards with boiler, hot water, fuel, flue gas, heating circuits and device states. Click a floor or a value to open details.
+- `/dom` – opens the 3D house. A switcher above the house selects the view: **Ogrzewanie** (heating) or **Elektryczność** (electricity). Each view has its own address. `/dom` and `/` open the heating view.
+- `/dom/ogrzewanie` – heating view of the 3D (isometric) house with live values: boiler, hot water and both mixers in the basement, each with its set value (for example `66,4 °C / 65 °C`). Each mixer also has a small gauge with its valve opening (0–100 %). A colour tag (M1, M2) shows which floor each mixer heats. Below it: cards with boiler, hot water, fuel, flue gas, heating circuits and device states. Click a floor or a value to open details.
+- `/dom/elektrycznosc` – electricity view. For now only the house, with no data. The boiler menu ("Plan domu | Piec") and the boiler status are hidden here (`boilerInfo: false` in `HOUSE_VIEWS`).
+- To add a new view: create a component in `frontend/src/house/views/` that renders the shared `HouseScene`, then add it to `HOUSE_VIEWS` in `frontend/src/house/houseViews.ts`.
 - `/dom/pietro`, `/dom/parter` – top view of one floor. `/dom/piwnica` – live heating diagram (boiler, buffer, hot water, mixers, pumps).
 - `/piec` – all boiler parameters as tiles.
 

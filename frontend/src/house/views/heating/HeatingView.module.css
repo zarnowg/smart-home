@@ -1,0 +1,174 @@
+.boilerWindow {
+  fill: #2b3350;
+  stroke: #1f2640;
+  stroke-linejoin: round;
+}
+
+.boilerDisplay {
+  fill: #c3cad9;
+}
+
+.boilerDisplayOn {
+  fill: #3ec7a6;
+}
+
+.boilerKnob {
+  fill: #ffffff;
+  stroke: #b4bdd6;
+}
+
+.flameOuter {
+  fill: #ff8a3d;
+}
+
+.flameInner {
+  fill: #ffd25a;
+}
+
+.flameGlow {
+  filter: drop-shadow(0 0 5px #ff9f43);
+  animation: glow 1.4s ease-in-out infinite alternate;
+}
+
+.flameOff {
+  fill: #4b5476;
+}
+
+.pipeBase {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pipe {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.flowing {
+  stroke-dasharray: 6 8;
+  animation: flow 1s linear infinite;
+}
+
+.gauge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: clamp(0.65rem, 1.8vw, 0.8rem);
+  color: var(--muted);
+}
+
+.gaugeIcon {
+  width: 2.4em;
+  height: 2.4em;
+  overflow: visible;
+}
+
+.gaugeTrack {
+  fill: #fff;
+  stroke: #b4bdd6;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.gaugeNeedle {
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+
+.gaugeValue {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.tankBody {
+  stroke: #cdd5ea;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 4px 6px rgba(80, 100, 150, 0.18));
+}
+
+.tankTop {
+  fill: #ffffff;
+  stroke: #cdd5ea;
+}
+
+.tankBand {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.tankOutlet {
+  stroke: #cdd5ea;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.valvePortOuter {
+  stroke: #b9c3dc;
+  stroke-width: 11;
+  stroke-linecap: round;
+}
+
+.valvePort {
+  stroke: #f4f6fc;
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+
+.valveFlange {
+  fill: #e4e9f5;
+  stroke: #b9c3dc;
+  stroke-width: 1.5;
+}
+
+.valveNeck {
+  stroke: #b9c3dc;
+  stroke-width: 4;
+}
+
+.valveBody {
+  fill: #ffffff;
+  stroke: #b9c3dc;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 2px 3px rgba(80, 100, 150, 0.25));
+}
+
+.valveHandle {
+  stroke: #ffffff;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.tagText {
+  font-size: 11px;
+  font-weight: 700;
+  fill: #ffffff;
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+@keyframes glow {
+  from {
+    opacity: 0.75;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flowing,
+  .flameGlow {
+    animation: none;
+  }
+}

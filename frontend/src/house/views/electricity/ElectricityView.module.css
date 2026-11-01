@@ -1,0 +1,37 @@
+.empty {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 22px;
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, #ffffff 0%, #f7f9fe 100%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow);
+}
+
+.icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff4d6;
+  color: #f2a900;
+}
+
+.icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.text {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
