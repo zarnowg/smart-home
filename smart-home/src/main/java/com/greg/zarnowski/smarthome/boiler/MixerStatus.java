@@ -1,6 +1,7 @@
 package com.greg.zarnowski.smarthome.boiler;
 
 public record MixerStatus(
+        Integer id,
         Double temperature,
         Double targetTemperature,
         Boolean roomThermostat,

@@ -18,5 +18,5 @@ public record BoilerStatus(
         Boolean hotWaterPump,
         Boolean additionalFeeder,
         Integer boilerPowerPercent,
-        MixerStatus mixer1,
-        MixerStatus mixer2) {}
+        WifiStatus wifi,
+        ServiceCounters serviceCounters) {}

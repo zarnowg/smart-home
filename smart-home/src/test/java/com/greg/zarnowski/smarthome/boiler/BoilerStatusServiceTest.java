@@ -25,14 +25,10 @@ class BoilerStatusServiceTest {
                 "boilerPower", 30,
                 "fuelLevel", 0);
         Map<String, Object> reg = Map.of(
-                "1031", 30.279739379882812,
-                "1287", 30,
-                "132", false,
-                "1544", true,
-                "150", 17,
-                "154", 0,
-                "133", true,
-                "155", 2);
+                "184", "piwnica",
+                "180", 4,
+                "182", 1,
+                "170", 5913);
         when(client.getDeviceParams()).thenReturn(new DeviceParams("U1", 61, "-64", 1L, curr));
         when(client.getDeviceRegParams()).thenReturn(new DeviceRegParams(reg));
 
@@ -47,9 +43,9 @@ class BoilerStatusServiceTest {
         assertThat(status.feeder()).isFalse();
         assertThat(status.boilerPowerPercent()).isEqualTo(30);
         assertThat(status.upperBufferTemperature()).isNull();
-        assertThat(status.mixer1())
-                .isEqualTo(new MixerStatus(30.3, 30.0, false, true, 17, "STOP"));
-        assertThat(status.mixer2().roomThermostat()).isTrue();
-        assertThat(status.mixer2().actuator()).isEqualTo("CLOSING");
+        assertThat(status.wifi().connected()).isTrue();
+        assertThat(status.wifi().ssid()).isEqualTo("piwnica");
+        assertThat(status.wifi().security()).isEqualTo("WPA2");
+        assertThat(status.serviceCounters().ignitions()).isEqualTo(5913);
     }
 }

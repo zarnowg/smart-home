@@ -1,5 +1,11 @@
 package com.greg.zarnowski.smarthome.boiler;
 
+import static com.greg.zarnowski.smarthome.boiler.ValueReader.integer;
+import static com.greg.zarnowski.smarthome.boiler.ValueReader.isOn;
+import static com.greg.zarnowski.smarthome.boiler.ValueReader.number;
+import static com.greg.zarnowski.smarthome.boiler.ValueReader.round;
+import static com.greg.zarnowski.smarthome.boiler.ValueReader.text;
+
 import com.greg.zarnowski.smarthome.econet24.Econet24Client;
 import java.util.Map;
 import org.springframework.stereotype.Service;
@@ -36,49 +42,27 @@ public class BoilerStatusService {
                 isOn(curr.get("pumpCWU")),
                 isOn(curr.get("feeder2Additional")),
                 integer(curr, "boilerPower"),
-                mixer(reg, "1031", "1287", "132", "1544", "150", "154"),
-                mixer(reg, "1032", "1288", "133", "1547", "151", "155"));
+                new WifiStatus(
+                        isOn(reg.get("182")),
+                        text(reg, "184"),
+                        wifiSecurity(integer(reg, "180")),
+                        integer(reg, "181"),
+                        text(reg, "176"),
+                        text(reg, "177"),
+                        text(reg, "178"),
+                        isOn(reg.get("179"))),
+                new ServiceCounters(
+                        integer(reg, "166"),
+                        integer(reg, "167"),
+                        integer(reg, "168"),
+                        integer(reg, "170"),
+                        integer(reg, "169")));
     }
 
-    private static MixerStatus mixer(
-            Map<String, Object> reg, String temp, String target, String thermostat, String pump, String valve, String actuator) {
-        return new MixerStatus(
-                round(number(reg, temp)),
-                round(number(reg, target)),
-                isOn(reg.get(thermostat)),
-                isOn(reg.get(pump)),
-                integer(reg, valve),
-                actuatorState(integer(reg, actuator)));
-    }
-
-    private static String actuatorState(Integer code) {
+    private static String wifiSecurity(Integer code) {
         if (code == null) {
             return null;
         }
-        return switch (code) {
-            case 0 -> "STOP";
-            case 1 -> "OPENING";
-            case 2 -> "CLOSING";
-            default -> "UNKNOWN_" + code;
-        };
-    }
-
-    private static Double number(Map<String, Object> curr, String key) {
-        return curr.get(key) instanceof Number n ? n.doubleValue() : null;
-    }
-
-    private static Integer integer(Map<String, Object> curr, String key) {
-        return curr.get(key) instanceof Number n ? n.intValue() : null;
-    }
-
-    private static Double round(Double value) {
-        return value == null ? null : Math.round(value * 10) / 10.0;
-    }
-
-    private static Boolean isOn(Object value) {
-        if (value instanceof Boolean b) {
-            return b;
-        }
-        return value instanceof Number n ? n.intValue() != 0 : null;
+        return code == 4 ? "WPA2" : "UNKNOWN_" + code;
     }
 }
