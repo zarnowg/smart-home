@@ -25,13 +25,26 @@ public class MixerStatusService {
     }
 
     public List<Integer> getMixerIds() {
+        return getMixers().stream().map(MixerStatus::id).toList();
+    }
+
+    public List<MixerStatus> getMixers() {
         Map<String, Object> reg = client.getDeviceRegParams().data();
-        return IntStream.rangeClosed(1, MIXER_COUNT).filter(id -> exists(reg, id)).boxed().toList();
+        return IntStream.rangeClosed(1, MIXER_COUNT)
+                .mapToObj(id -> read(reg, id))
+                .flatMap(Optional::stream)
+                .toList();
     }
 
     public Optional<MixerStatus> getMixer(int id) {
-        Map<String, Object> reg = client.getDeviceRegParams().data();
-        if (id < 1 || id > MIXER_COUNT || !exists(reg, id)) {
+        if (id < 1 || id > MIXER_COUNT) {
+            return Optional.empty();
+        }
+        return read(client.getDeviceRegParams().data(), id);
+    }
+
+    private static Optional<MixerStatus> read(Map<String, Object> reg, int id) {
+        if (!exists(reg, id)) {
             return Optional.empty();
         }
         return Optional.of(new MixerStatus(
