@@ -1,0 +1,57 @@
+.drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.scroll {
+  overflow-x: auto;
+}
+
+.scroll svg {
+  display: block;
+  min-width: 720px;
+}
+
+.room {
+  fill: #ffffff;
+  stroke: #e6ebf5;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 6px 10px rgba(80, 100, 150, 0.12));
+}
+
+.staircase {
+  fill: #e9edfb;
+}
+
+.steps {
+  fill: none;
+  stroke: #cfd7f1;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.halo {
+  paint-order: stroke;
+  stroke: #e9edfb;
+  stroke-width: 8px;
+  stroke-linejoin: round;
+}
+
+.roomName {
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  fill: var(--muted);
+}
+
+.roomTemperature {
+  font-size: 30px;
+  font-weight: 500;
+  fill: var(--text);
+}

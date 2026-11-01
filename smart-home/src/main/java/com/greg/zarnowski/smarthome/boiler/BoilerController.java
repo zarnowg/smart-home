@@ -29,6 +29,11 @@ public class BoilerController {
         return mixerService.getMixerIds();
     }
 
+    @GetMapping("/api/boiler/mixers/details")
+    public List<MixerStatus> mixers() {
+        return mixerService.getMixers();
+    }
+
     @GetMapping("/api/boiler/mixers/{id}")
     public MixerStatus mixer(@PathVariable int id) {
         return mixerService

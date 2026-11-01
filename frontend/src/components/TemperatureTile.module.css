@@ -1,0 +1,18 @@
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--tile);
+}
+
+.label {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.value {
+  font-size: 1.5rem;
+  font-weight: 600;
+}

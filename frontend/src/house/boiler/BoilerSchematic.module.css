@@ -1,0 +1,119 @@
+.label {
+  font-size: 12px;
+  fill: var(--muted);
+}
+
+.value {
+  font-size: 14px;
+  font-weight: 600;
+  fill: var(--text);
+}
+
+.light {
+  fill: #ffffff;
+}
+
+.big {
+  font-size: 24px;
+  font-weight: 700;
+  fill: var(--text);
+}
+
+.actuatorText {
+  font-size: 11px;
+  font-weight: 700;
+  fill: #ffffff;
+}
+
+.node {
+  fill: #ffffff;
+  stroke: #e6ebf5;
+  filter: drop-shadow(0 6px 12px rgba(80, 100, 150, 0.16));
+}
+
+.pipeBase {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 2px 3px rgba(80, 100, 150, 0.15));
+}
+
+.pipe {
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.flowing {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.85);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 4 14;
+  animation: flow 0.9s linear infinite;
+}
+
+.device {
+  fill: #ffffff;
+  stroke-width: 2;
+  filter: drop-shadow(0 3px 6px rgba(80, 100, 150, 0.2));
+}
+
+.icon {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: spin 1.2s linear infinite;
+}
+
+.flame {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  animation: flicker 0.6s ease-in-out infinite alternate;
+}
+
+.igniterOn {
+  fill: #ff922b;
+  filter: drop-shadow(0 0 4px #ff922b);
+}
+
+.igniterOff {
+  fill: #5c6680;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -18;
+  }
+}
+
+@keyframes flicker {
+  from {
+    transform: scaleY(0.92);
+  }
+  to {
+    transform: scaleY(1.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin,
+  .flame,
+  .flowing {
+    animation: none;
+  }
+}
