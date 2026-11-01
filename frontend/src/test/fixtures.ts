@@ -3,10 +3,12 @@ import type { BoilerStatus, MixerStatus } from '../api/types'
 
 export const BOILER_STATUS: BoilerStatus = {
   boilerTemperature: 65.4,
+  boilerTargetTemperature: 70,
   feederTemperature: 30,
   outdoorTemperature: -2.5,
   flueGasTemperature: 120,
   hotWaterTemperature: 48,
+  hotWaterTargetTemperature: 50,
   upperBufferTemperature: 60,
   lowerBufferTemperature: 40,
   fuelLevel: 75,

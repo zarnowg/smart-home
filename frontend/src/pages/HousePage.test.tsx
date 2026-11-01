@@ -26,21 +26,21 @@ describe('HousePage', () => {
     vi.unstubAllGlobals()
   })
 
-  it('givenHouseData_whenRendered_thenShowsCalloutsAndCardsWithLiveValues', async () => {
+  it('givenHouseData_whenRendered_thenShowsCalloutsWithTargetsAndCardsWithLiveValues', async () => {
     // given
     mockApi({
       '/api/boiler/status': () => Response.json(BOILER_STATUS),
-      '/api/boiler/mixers/details': () => Response.json([{ ...MIXER, id: 1, temperature: 31.2 }, MIXER]),
+      '/api/boiler/mixers/details': () => Response.json([{ ...MIXER, id: 1, temperature: 31.2, targetTemperature: null }, MIXER]),
     })
 
     // when
     renderAt('/dom')
 
     // then
-    expect(await screen.findByRole('link', { name: 'Mieszacz 1 → 1. piętro: 31,2 °C' })).toBeTruthy()
-    expect(screen.getByRole('link', { name: 'Mieszacz 2 → Parter: 35,5 °C' })).toBeTruthy()
-    expect(screen.getByRole('link', { name: 'Kocioł: 65,4 °C' })).toBeTruthy()
-    expect(screen.getByRole('link', { name: 'Ciepła woda: 48 °C' })).toBeTruthy()
+    expect(await screen.findByRole('link', { name: 'Mieszacz 1 → 1. piętro: 31,2 °C, otwarcie zaworu 30 %' })).toBeTruthy()
+    expect(screen.getByRole('link', { name: 'Mieszacz 2 → Parter: 35,5 °C, zadana 40 °C, otwarcie zaworu 30 %' })).toBeTruthy()
+    expect(screen.getByRole('link', { name: 'Kocioł: 65,4 °C, zadana 70 °C' })).toBeTruthy()
+    expect(screen.getByRole('link', { name: 'Ciepła woda: 48 °C, zadana 50 °C' })).toBeTruthy()
     const upperCircuit = screen.getByRole('article', { name: '1. piętro · Grzejniki' })
     expect(within(upperCircuit).getByText('31,2')).toBeTruthy()
     expect(screen.getByText('Piec pracuje')).toBeTruthy()
@@ -56,7 +56,7 @@ describe('HousePage', () => {
     renderAt('/dom')
 
     // when
-    fireEvent.click(await screen.findByRole('link', { name: 'Mieszacz 2 → Parter: 35,5 °C' }))
+    fireEvent.click(await screen.findByRole('link', { name: 'Mieszacz 2 → Parter: 35,5 °C, zadana 40 °C, otwarcie zaworu 30 %' }))
 
     // then
     const plan = await screen.findByRole('group', { name: 'Plan: Parter' })

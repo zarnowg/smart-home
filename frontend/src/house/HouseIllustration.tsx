@@ -9,7 +9,7 @@ import { createIso, type Vec3 } from './iso'
 import { temperatureColor } from './temperatureColor'
 
 const VIEW_WIDTH = 720
-const VIEW_HEIGHT = 700
+const VIEW_HEIGHT = 725
 const ROW_Y = [560, 635]
 const LABEL_HEIGHT = 50
 
@@ -35,8 +35,12 @@ const PORT_LENGTH = 0.55
 
 const MIXER_X: Record<LivingFloorId, number> = { parter: 6.2, pietro: 9 }
 
+const BOILER = { x0: 0.4, x1: 2.2, y0: D - 1.4, y1: D - 0.2, z0: BASE, z1: -1.5 }
+const FLAME_X = 1.3
+const FLAME_BASE = -2.68
+
 const SUPPLY_PIPE: Vec3[] = [
-  [5.6, SUPPLY_Y, SUPPLY_Z],
+  [BOILER.x1, SUPPLY_Y, SUPPLY_Z],
   [MIXER_X.pietro, SUPPLY_Y, SUPPLY_Z],
 ]
 
@@ -60,8 +64,9 @@ const ISO_ELLIPSE_X = Math.sqrt(1.5)
 const ISO_ELLIPSE_Y = Math.SQRT1_2
 
 const HOT_WATER_PIPE: Vec3[] = [
-  [4.1, D - 3, -2],
-  [4.1, 1.6, -2],
+  [BOILER.x1, 5.75, -2],
+  [2.8, 5.75, -2],
+  [2.8, 1.6, -2],
   [TANK.x - TANK.radius, TANK.y, -2],
 ]
 
@@ -77,7 +82,9 @@ interface Callout {
   alignEnd: boolean
   color?: string
   value: string
-  label: string
+  target: string | null
+  valvePercent?: number | null
+  label?: string
   to: string
   ariaLabel: string
 }
@@ -94,6 +101,47 @@ function Box({ x0, x1, y0, y1, z0, z1, topFill }: BoxProps) {
         style={topFill ? { fill: topFill } : undefined}
         points={iso.points([x0, y0, z1], [x1, y0, z1], [x1, y1, z1], [x0, y1, z1])}
       />
+    </g>
+  )
+}
+
+function boilerFace(x: number, z: number) {
+  return iso.project([x, BOILER.y1, z])
+}
+
+function facePolygon(x0: number, x1: number, z0: number, z1: number) {
+  return iso.points([x0, BOILER.y1, z0], [x1, BOILER.y1, z0], [x1, BOILER.y1, z1], [x0, BOILER.y1, z1])
+}
+
+function flamePath(halfWidth: number, height: number) {
+  const left = boilerFace(FLAME_X - halfWidth, FLAME_BASE)
+  const leftControl = boilerFace(FLAME_X - halfWidth, FLAME_BASE + height * 0.65)
+  const tip = boilerFace(FLAME_X, FLAME_BASE + height)
+  const rightControl = boilerFace(FLAME_X + halfWidth, FLAME_BASE + height * 0.65)
+  const right = boilerFace(FLAME_X + halfWidth, FLAME_BASE)
+  return `M ${left.x} ${left.y} Q ${leftControl.x} ${leftControl.y} ${tip.x} ${tip.y} Q ${rightControl.x} ${rightControl.y} ${right.x} ${right.y} Z`
+}
+
+function BoilerUnit({ powerPercent }: { powerPercent: number | null | undefined }) {
+  const power = Math.min(Math.max(powerPercent ?? 0, 0), 100)
+  const burning = power > 0
+  const height = 0.3 + (power / 100) * 0.45
+  const knob = boilerFace(1.78, -1.74)
+  return (
+    <g role="img" aria-label={burning ? 'Kocioł pracuje' : 'Kocioł w spoczynku'}>
+      <Box {...BOILER} />
+      <Box x0={0.95} x1={1.35} y0={BOILER.y0 + 0.35} y1={BOILER.y0 + 0.75} z0={BOILER.z1} z1={BOILER.z1 + 0.35} />
+      <polygon className={styles.boilerWindow} points={facePolygon(0.7, 1.9, -2.78, -1.98)} />
+      <polygon className={burning ? styles.boilerDisplayOn : styles.boilerDisplay} points={facePolygon(0.7, 1.5, -1.84, -1.66)} />
+      <circle className={styles.boilerKnob} cx={knob.x} cy={knob.y} r={2.6} />
+      {burning ? (
+        <g className={styles.flameGlow}>
+          <path className={styles.flameOuter} d={flamePath(0.3, height)} />
+          <path className={styles.flameInner} d={flamePath(0.15, height * 0.55)} />
+        </g>
+      ) : (
+        <path className={styles.flameOff} d={flamePath(0.2, 0.2)} />
+      )}
     </g>
   )
 }
@@ -250,13 +298,62 @@ function FloorHitArea({ floorId, name }: { floorId: string; name: string }) {
   )
 }
 
+const GAUGE_PIVOT = { x: 2, y: 20 }
+const GAUGE_RADIUS = 17
+
+function gaugePoint(percent: number) {
+  const angle = (Math.min(Math.max(percent, 0), 100) / 100) * (Math.PI / 2)
+  return {
+    x: GAUGE_PIVOT.x + GAUGE_RADIUS * Math.cos(angle),
+    y: GAUGE_PIVOT.y - GAUGE_RADIUS * Math.sin(angle),
+  }
+}
+
+function ValveGauge({ percent, color }: { percent: number | null | undefined; color?: string }) {
+  const { x: px, y: py } = GAUGE_PIVOT
+  const start = gaugePoint(0)
+  const full = gaugePoint(100)
+  const needle = percent == null ? null : gaugePoint(percent)
+  return (
+    <span className={styles.gauge}>
+      <svg className={styles.gaugeIcon} viewBox="0 0 22 22" aria-hidden="true">
+        <path className={styles.gaugeTrack} d={`M ${px} ${py} L ${start.x} ${start.y} A ${GAUGE_RADIUS} ${GAUGE_RADIUS} 0 0 0 ${full.x} ${full.y} Z`} />
+        {needle && (
+          <>
+            <path
+              d={`M ${px} ${py} L ${start.x} ${start.y} A ${GAUGE_RADIUS} ${GAUGE_RADIUS} 0 0 0 ${needle.x} ${needle.y} Z`}
+              fill={color}
+              fillOpacity={0.45}
+            />
+            <line className={styles.gaugeNeedle} x1={px} y1={py} x2={needle.x} y2={needle.y} stroke={color} />
+            <circle cx={px} cy={py} r={2} fill={color} />
+          </>
+        )}
+      </svg>
+      <span>
+        otwarcie <strong className={styles.gaugeValue}>{formatPercent(percent)}</strong>
+      </span>
+    </span>
+  )
+}
+
+function formatTarget(value: number | null | undefined): string | null {
+  return value == null ? null : formatTemperature(value)
+}
+
+function withTarget(text: string, target: string | null): string {
+  return target ? `${text}, zadana ${target}` : text
+}
+
 function buildCallouts(status: BoilerStatus | undefined, mixers: MixerStatus[] | undefined): Callout[] {
   const mixerCallouts = LIVING_FLOORS.flatMap((floor): Callout[] => {
     const circuit = circuitForFloor(floor.id)
     if (!circuit) {
       return []
     }
-    const temperature = formatTemperature(findMixer(mixers, circuit.mixerId)?.temperature)
+    const mixer = findMixer(mixers, circuit.mixerId)
+    const temperature = formatTemperature(mixer?.temperature)
+    const target = formatTarget(mixer?.targetTemperature)
     return [
       {
         id: floor.id,
@@ -265,9 +362,10 @@ function buildCallouts(status: BoilerStatus | undefined, mixers: MixerStatus[] |
         alignEnd: floor.id === 'parter',
         color: circuit.color,
         value: temperature,
-        label: `M${circuit.mixerId} → ${floor.name}`,
+        target,
+        valvePercent: mixer?.valvePercent,
         to: `/dom/${floor.id}`,
-        ariaLabel: `Mieszacz ${circuit.mixerId} → ${floor.name}: ${temperature}`,
+        ariaLabel: `${withTarget(`Mieszacz ${circuit.mixerId} → ${floor.name}: ${temperature}`, target)}, otwarcie zaworu ${formatPercent(mixer?.valvePercent)}`,
       },
     ]
   })
@@ -275,13 +373,14 @@ function buildCallouts(status: BoilerStatus | undefined, mixers: MixerStatus[] |
     ...mixerCallouts,
     {
       id: 'kociol',
-      anchor: [4.1, D - 0.8, -0.9],
+      anchor: [FLAME_X, BOILER.y1, BOILER.z0],
       row: 0,
       alignEnd: true,
       value: formatTemperature(status?.boilerTemperature),
+      target: formatTarget(status?.boilerTargetTemperature),
       label: `Kocioł · ${formatPercent(status?.boilerPowerPercent)}`,
       to: `/dom/${BASEMENT_ID}`,
-      ariaLabel: `Kocioł: ${formatTemperature(status?.boilerTemperature)}`,
+      ariaLabel: withTarget(`Kocioł: ${formatTemperature(status?.boilerTemperature)}`, formatTarget(status?.boilerTargetTemperature)),
     },
     {
       id: 'cwu',
@@ -289,9 +388,13 @@ function buildCallouts(status: BoilerStatus | undefined, mixers: MixerStatus[] |
       row: 0,
       alignEnd: false,
       value: formatTemperature(status?.hotWaterTemperature),
+      target: formatTarget(status?.hotWaterTargetTemperature),
       label: 'Ciepła woda',
       to: `/dom/${BASEMENT_ID}`,
-      ariaLabel: `Ciepła woda: ${formatTemperature(status?.hotWaterTemperature)}`,
+      ariaLabel: withTarget(
+        `Ciepła woda: ${formatTemperature(status?.hotWaterTemperature)}`,
+        formatTarget(status?.hotWaterTargetTemperature),
+      ),
     },
   ]
 }
@@ -303,7 +406,6 @@ export function HouseIllustration({ status, mixers }: HouseIllustrationProps) {
     const circuit = circuitForFloor(floorId)
     return Boolean(circuit && findMixer(mixers, circuit.mixerId)?.pump)
   }
-  const flameCenter = iso.project([4.1, D - 0.8, -1.9])
 
   return (
     <div className={styles.container}>
@@ -316,16 +418,7 @@ export function HouseIllustration({ status, mixers }: HouseIllustrationProps) {
         <polygon className={styles.glassBack} points={iso.points([0, 0, BASE], [0, D, BASE], [0, D, 0], [0, 0, 0])} />
         <polygon className={styles.glassBack} points={iso.points([0, 0, BASE], [W, 0, BASE], [W, 0, 0], [0, 0, 0])} />
         <FlowPipe path={HOT_WATER_PIPE} temperature={status?.hotWaterTemperature} flowing={Boolean(status?.hotWaterPump)} />
-        <Box x0={2.6} x1={5.6} y0={D - 3} y1={D - 0.8} z0={BASE} z1={-0.6} />
-        <ellipse
-          className={burning ? styles.flameGlow : styles.flameOff}
-          cx={flameCenter.x}
-          cy={flameCenter.y}
-          rx={10}
-          ry={13}
-          role="img"
-          aria-label={burning ? 'Kocioł pracuje' : 'Kocioł w spoczynku'}
-        />
+        <BoilerUnit powerPercent={status?.boilerPowerPercent} />
         <WaterTank temperature={status?.hotWaterTemperature} />
         <FlowPipe path={SUPPLY_PIPE} temperature={status?.boilerTemperature} flowing={Boolean(status?.boilerPump)} />
         <polygon className={styles.glassFront} points={iso.points([0, D, BASE], [W, D, BASE], [W, D, 0], [0, D, 0])} />
@@ -407,11 +500,17 @@ export function HouseIllustration({ status, mixers }: HouseIllustrationProps) {
             aria-label={callout.ariaLabel}
             style={{ ...position, top: `${(top / VIEW_HEIGHT) * 100}%` }}
           >
-            <span className={styles.labelValue}>{callout.value}</span>
-            <span className={styles.labelText}>
-              {callout.color && <span className={styles.labelBadge} style={{ background: callout.color }} />}
-              {callout.label}
+            <span className={styles.labelValue}>
+              {callout.value}
+              {callout.target && (
+                <span className={styles.labelTarget} title="Wartość zadana">
+                  {' / '}
+                  {callout.target}
+                </span>
+              )}
             </span>
+            {callout.label && <span className={styles.labelText}>{callout.label}</span>}
+            {callout.valvePercent !== undefined && <ValveGauge percent={callout.valvePercent} color={callout.color} />}
           </Link>
         )
       })}

@@ -2,10 +2,12 @@ package com.greg.zarnowski.smarthome.boiler;
 
 public record BoilerStatus(
         Double boilerTemperature,
+        Double boilerTargetTemperature,
         Double feederTemperature,
         Double outdoorTemperature,
         Double flueGasTemperature,
         Double hotWaterTemperature,
+        Double hotWaterTargetTemperature,
         Double upperBufferTemperature,
         Double lowerBufferTemperature,
         Integer fuelLevel,

@@ -97,14 +97,40 @@
   fill: #dfe5f3;
 }
 
+.boilerWindow {
+  fill: #2b3350;
+  stroke: #1f2640;
+  stroke-linejoin: round;
+}
+
+.boilerDisplay {
+  fill: #c3cad9;
+}
+
+.boilerDisplayOn {
+  fill: #3ec7a6;
+}
+
+.boilerKnob {
+  fill: #ffffff;
+  stroke: #b4bdd6;
+}
+
+.flameOuter {
+  fill: #ff8a3d;
+}
+
+.flameInner {
+  fill: #ffd25a;
+}
+
 .flameGlow {
-  fill: #ff9f43;
-  filter: drop-shadow(0 0 6px #ff9f43);
+  filter: drop-shadow(0 0 5px #ff9f43);
   animation: glow 1.4s ease-in-out infinite alternate;
 }
 
 .flameOff {
-  fill: #c3cad9;
+  fill: #4b5476;
 }
 
 .pipeBase {
@@ -191,6 +217,44 @@
   font-weight: 500;
 }
 
+.labelTarget {
+  font-size: 0.6em;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.gauge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: clamp(0.65rem, 1.8vw, 0.8rem);
+  color: var(--muted);
+}
+
+.gaugeIcon {
+  width: 2.4em;
+  height: 2.4em;
+  overflow: visible;
+}
+
+.gaugeTrack {
+  fill: #fff;
+  stroke: #b4bdd6;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.gaugeNeedle {
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+
+.gaugeValue {
+  font-weight: 600;
+  color: var(--text);
+}
+
 .tankBody {
   stroke: #cdd5ea;
   stroke-linejoin: round;
@@ -254,14 +318,6 @@
   font-size: 11px;
   font-weight: 700;
   fill: #ffffff;
-}
-
-.labelBadge {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 6px;
-  border-radius: 50%;
 }
 
 .labelText {

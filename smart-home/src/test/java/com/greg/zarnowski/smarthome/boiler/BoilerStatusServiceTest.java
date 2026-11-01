@@ -28,7 +28,9 @@ class BoilerStatusServiceTest {
                 "184", "piwnica",
                 "180", 4,
                 "182", 1,
-                "170", 5913);
+                "170", 5913,
+                "1280", 65,
+                "1281", 50.0);
         when(client.getDeviceParams()).thenReturn(new DeviceParams("U1", 61, "-64", 1L, curr));
         when(client.getDeviceRegParams()).thenReturn(new DeviceRegParams(reg));
 
@@ -37,6 +39,8 @@ class BoilerStatusServiceTest {
 
         // then
         assertThat(status.boilerTemperature()).isEqualTo(66.6);
+        assertThat(status.boilerTargetTemperature()).isEqualTo(65.0);
+        assertThat(status.hotWaterTargetTemperature()).isEqualTo(50.0);
         assertThat(status.oxygenPercent()).isEqualTo(18.3);
         assertThat(status.boilerThermostat()).isTrue();
         assertThat(status.boilerPump()).isTrue();

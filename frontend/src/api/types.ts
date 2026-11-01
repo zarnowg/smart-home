@@ -19,10 +19,12 @@ export interface ServiceCounters {
 
 export interface BoilerStatus {
   boilerTemperature: number | null
+  boilerTargetTemperature: number | null
   feederTemperature: number | null
   outdoorTemperature: number | null
   flueGasTemperature: number | null
   hotWaterTemperature: number | null
+  hotWaterTargetTemperature: number | null
   upperBufferTemperature: number | null
   lowerBufferTemperature: number | null
   fuelLevel: number | null

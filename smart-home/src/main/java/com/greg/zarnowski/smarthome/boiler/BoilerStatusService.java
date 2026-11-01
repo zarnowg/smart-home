@@ -26,10 +26,12 @@ public class BoilerStatusService {
         Double lambda = number(curr, "lambdaLevel");
         return new BoilerStatus(
                 round(number(curr, "tempCO")),
+                round(number(reg, "1280")),
                 round(number(curr, "tempFeeder")),
                 round(number(curr, "tempExternalSensor")),
                 round(number(curr, "tempFlueGas")),
                 round(number(curr, "tempCWU")),
+                round(number(reg, "1281")),
                 round(number(curr, "tempUpperBuffer")),
                 round(number(curr, "tempLowerBuffer")),
                 integer(curr, "fuelLevel"),

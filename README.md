@@ -5,7 +5,7 @@
 
 ## Web app pages
 
-- `/dom` – 3D (isometric) house with live values: boiler, hot water and both mixers in the basement. A colour tag (M1, M2) shows which floor each mixer heats. Below it: cards with boiler, hot water, fuel, flue gas, heating circuits and device states. Click a floor or a value to open details.
+- `/dom` – 3D (isometric) house with live values: boiler, hot water and both mixers in the basement, each with its set value (for example `66,4 °C / 65 °C`). Each mixer also has a small gauge with its valve opening (0–100 %). A colour tag (M1, M2) shows which floor each mixer heats. Below it: cards with boiler, hot water, fuel, flue gas, heating circuits and device states. Click a floor or a value to open details.
 - `/dom/pietro`, `/dom/parter` – top view of one floor. `/dom/piwnica` – live heating diagram (boiler, buffer, hot water, mixers, pumps).
 - `/piec` – all boiler parameters as tiles.
 
