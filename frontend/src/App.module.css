@@ -1,7 +1,13 @@
 .layout {
-  max-width: 1100px;
+  max-width: 1480px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 20px 24px 24px 112px;
+}
+
+@media (max-width: 720px) {
+  .layout {
+    padding: 16px 14px 92px;
+  }
 }
 
 .header {
@@ -17,26 +23,10 @@
 .logo {
   margin: 0;
   font-size: 1.4rem;
-  font-weight: 600;
-}
-
-.nav {
-  display: flex;
-  gap: 4px;
-  padding: 4px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.7);
-  box-shadow: var(--shadow);
-}
-
-.link {
-  color: var(--muted);
-  text-decoration: none;
-  padding: 6px 16px;
-  border-radius: 999px;
-}
-
-.active {
-  color: #ffffff;
-  background: var(--accent);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(90deg, #ffffff, var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }

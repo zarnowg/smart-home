@@ -63,9 +63,9 @@ export function WaterTank({ temperature }: { temperature: number | null | undefi
     <g role="img" aria-label={`Zasobnik CWU: ${formatTemperature(temperature)}`}>
       <defs>
         <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="#ffffff" />
-          <stop offset="0.45" stopColor="#f4f6fc" />
-          <stop offset="1" stopColor="#d5dcee" />
+          <stop offset="0" stopColor="#46338f" />
+          <stop offset="0.45" stopColor="#2c1d62" />
+          <stop offset="1" stopColor="#190f3b" />
         </linearGradient>
       </defs>
       <path
@@ -133,7 +133,7 @@ export function CircuitTag({ at, mixerId, color }: { at: Vec3; mixerId: number; 
   const { x, y } = iso.project(at)
   return (
     <g aria-hidden="true">
-      <rect x={x - 16} y={y - 10} width={32} height={20} rx={10} fill={color} stroke="#ffffff" strokeWidth={2} />
+      <rect x={x - 16} y={y - 10} width={32} height={20} rx={10} fill={color} stroke="#0f0826" strokeWidth={2} />
       <text className={styles.tagText} x={x} y={y + 4} textAnchor="middle">
         M{mixerId}
       </text>

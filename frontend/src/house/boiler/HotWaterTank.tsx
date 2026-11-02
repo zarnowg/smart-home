@@ -12,7 +12,7 @@ export function HotWaterTank({ temperature }: HotWaterTankProps) {
   const center = x + width / 2
   return (
     <g role="img" aria-label={`Ciepła woda (CWU): ${formatTemperature(temperature)}`}>
-      <rect x={x} y={y} width={width} height={height} rx={28} className={styles.node} style={{ fill: temperatureColor(temperature) }} stroke="#ffffff" strokeWidth={4} />
+      <rect x={x} y={y} width={width} height={height} rx={28} className={styles.node} style={{ fill: temperatureColor(temperature) }} stroke="#4d3d94" strokeWidth={4} />
       <text className={`${styles.label} ${styles.light}`} x={center} y={y + 50} textAnchor="middle">
         CWU
       </text>

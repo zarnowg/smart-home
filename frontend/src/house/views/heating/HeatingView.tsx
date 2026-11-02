@@ -6,6 +6,7 @@ import { HouseCards } from '../../HouseCards'
 import { BASEMENT_ID, circuitForFloor, LIVING_FLOORS } from '../../houseConfig'
 import type { Callout } from '../../scene/geometry'
 import { HouseScene } from '../../scene/HouseScene'
+import styles from './HeatingView.module.css'
 import { BoilerUnit, CircuitTag, FlowPipe, MixingValve, ValveGauge, WaterTank } from './HeatingParts'
 import {
   BOILER,
@@ -125,7 +126,7 @@ export function HeatingView() {
   }).map((floor) => floor.id)
 
   return (
-    <>
+    <div className={styles.layout}>
       <HouseScene
         basement={
           <>
@@ -141,6 +142,6 @@ export function HeatingView() {
         smoking={(status?.boilerPowerPercent ?? 0) > 0}
       />
       <HouseCards status={status} mixers={mixers} />
-    </>
+    </div>
   )
 }

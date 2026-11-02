@@ -7,9 +7,10 @@
   flex: 1;
   height: 14px;
   border-radius: 5px;
-  background: #e2e7f2;
+  background: var(--line-soft);
 }
 
 .filled {
-  background: var(--blue);
+  background: linear-gradient(180deg, var(--blue), var(--accent));
+  box-shadow: 0 0 8px rgba(236, 75, 200, 0.5);
 }

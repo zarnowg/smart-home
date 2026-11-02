@@ -18,10 +18,6 @@ export const HOUSE_VIEWS: readonly HouseView[] = [
 
 export const DEFAULT_VIEW_PATH = `/dom/${HOUSE_VIEWS[0].id}`
 
-export function showsBoilerInfo(pathname: string): boolean {
-  return !HOUSE_VIEWS.some((view) => !view.boilerInfo && pathname === housePath(view))
-}
-
 export function housePath(view: HouseView): string {
   return `/dom/${view.id}`
 }

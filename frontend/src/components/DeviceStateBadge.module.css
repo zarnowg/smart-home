@@ -16,6 +16,7 @@
 
 .on .dot {
   background: var(--on);
+  box-shadow: 0 0 8px rgba(79, 216, 255, 0.6);
 }
 
 .state {

@@ -1,4 +1,4 @@
-export const NO_DATA_COLOR = '#adb5bd'
+export const NO_DATA_COLOR = '#7a6bb8'
 
 const COLD_HUE = 220
 

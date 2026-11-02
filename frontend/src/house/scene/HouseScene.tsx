@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { BASEMENT_ID, LIVING_FLOORS, type LivingFloorId } from '../houseConfig'
 import type { Vec3 } from '../iso'
 import { Box } from './Box'
+import { ScenePins } from './ScenePins'
 import {
   BASE,
   D,
@@ -16,6 +17,7 @@ import {
   RIDGE,
   ROW_Y,
   VIEW_HEIGHT,
+  VIEW_TOP,
   VIEW_WIDTH,
   W,
   WALL,
@@ -86,7 +88,7 @@ function CalloutLabel({ callout }: { callout: Callout }) {
       className={callout.alignEnd ? `${styles.label} ${styles.labelEnd}` : styles.label}
       to={callout.to}
       aria-label={callout.ariaLabel}
-      style={{ ...position, top: `${(ROW_Y[callout.row] / VIEW_HEIGHT) * 100}%` }}
+      style={{ ...position, top: `${((ROW_Y[callout.row] - VIEW_TOP) / VIEW_HEIGHT) * 100}%` }}
     >
       <span className={styles.labelValue}>
         {callout.value}
@@ -103,14 +105,37 @@ function CalloutLabel({ callout }: { callout: Callout }) {
   )
 }
 
+const GRID_EXTENT = 4
+const GRID_LINES = Array.from({ length: 11 }, (_, index) => -2 + index * 1.4)
+
+function gridLine(from: Vec3, to: Vec3) {
+  const start = iso.project(from)
+  const end = iso.project(to)
+  return { x1: start.x, y1: start.y, x2: end.x, y2: end.y }
+}
+
 export function HouseScene({ basement, overlay, callouts = [], warmFloors = [], smoking = false }: HouseSceneProps) {
   const chimneyTop = iso.project([2.5, 1.5, 10.2])
   return (
-    <div className={styles.container}>
-      <svg className={styles.svg} viewBox={`0 0 ${VIEW_WIDTH} ${VIEW_HEIGHT}`} role="group" aria-label="Dom">
+    <div className={styles.container} style={{ aspectRatio: `${VIEW_WIDTH} / ${VIEW_HEIGHT}` }}>
+      <svg className={styles.svg} viewBox={`0 ${VIEW_TOP} ${VIEW_WIDTH} ${VIEW_HEIGHT}`} role="group" aria-label="Dom">
+        <defs>
+          <linearGradient id="pin-beam" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0" stopColor="#4fc3ff" stopOpacity="0.4" />
+            <stop offset="1" stopColor="#4fc3ff" stopOpacity="0" />
+          </linearGradient>
+        </defs>
         <polygon className={styles.plateSide} points={iso.points([-PLATE, D + PLATE, 0], [W + PLATE, D + PLATE, 0], [W + PLATE, D + PLATE, -0.4], [-PLATE, D + PLATE, -0.4])} />
         <polygon className={styles.plateSide} points={iso.points([W + PLATE, -PLATE, 0], [W + PLATE, D + PLATE, 0], [W + PLATE, D + PLATE, -0.4], [W + PLATE, -PLATE, -0.4])} />
         <polygon className={styles.plateTop} points={iso.points([-PLATE, -PLATE, 0], [W + PLATE, -PLATE, 0], [W + PLATE, D + PLATE, 0], [-PLATE, D + PLATE, 0])} />
+        <g className={styles.grid}>
+          {GRID_LINES.map((offset) => (
+            <g key={offset}>
+              <line {...gridLine([offset, -GRID_EXTENT, 0], [offset, D + GRID_EXTENT, 0])} />
+              <line {...gridLine([-GRID_EXTENT, offset, 0], [W + GRID_EXTENT, offset, 0])} />
+            </g>
+          ))}
+        </g>
 
         <polygon className={styles.glassBack} points={iso.points([0, 0, BASE], [W, 0, BASE], [W, D, BASE], [0, D, BASE])} />
         <polygon className={styles.glassBack} points={iso.points([0, 0, BASE], [0, D, BASE], [0, D, 0], [0, 0, 0])} />
@@ -138,6 +163,7 @@ export function HouseScene({ basement, overlay, callouts = [], warmFloors = [], 
         <polygon className={styles.roofFront} points={iso.points([-OVERHANG, D / 2, RIDGE], [W + OVERHANG, D / 2, RIDGE], [W + OVERHANG, D + OVERHANG, EAVE], [-OVERHANG, D + OVERHANG, EAVE])} />
 
         {overlay}
+        <ScenePins />
 
         {LIVING_FLOORS.map((floor) => (
           <FloorHitArea key={floor.id} floorId={floor.id} name={floor.name} />

@@ -10,7 +10,7 @@
 }
 
 .light {
-  fill: #ffffff;
+  fill: var(--text);
 }
 
 .big {
@@ -26,18 +26,18 @@
 }
 
 .node {
-  fill: #ffffff;
-  stroke: #e6ebf5;
-  filter: drop-shadow(0 6px 12px rgba(80, 100, 150, 0.16));
+  fill: var(--surface-hi);
+  stroke: var(--line);
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.45));
 }
 
 .pipeBase {
   fill: none;
-  stroke: #ffffff;
+  stroke: var(--surface-lo);
   stroke-width: 9;
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter: drop-shadow(0 2px 3px rgba(80, 100, 150, 0.15));
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
 }
 
 .pipe {
@@ -57,9 +57,9 @@
 }
 
 .device {
-  fill: #ffffff;
+  fill: var(--surface-hi);
   stroke-width: 2;
-  filter: drop-shadow(0 3px 6px rgba(80, 100, 150, 0.2));
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.45));
 }
 
 .icon {
@@ -86,7 +86,7 @@
 }
 
 .igniterOff {
-  fill: #5c6680;
+  fill: var(--off);
 }
 
 @keyframes spin {

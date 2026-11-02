@@ -3,7 +3,8 @@ import type { LivingFloorId } from '../houseConfig'
 import { createIso, type Vec3 } from '../iso'
 
 export const VIEW_WIDTH = 720
-export const VIEW_HEIGHT = 725
+export const VIEW_TOP = -120
+export const VIEW_HEIGHT = 845
 export const ROW_Y = [560, 635]
 export const LABEL_HEIGHT = 50
 

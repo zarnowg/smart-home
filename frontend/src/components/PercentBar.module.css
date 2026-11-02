@@ -30,5 +30,6 @@
 
 .fill {
   height: 100%;
-  background: var(--blue);
+  background: linear-gradient(90deg, var(--blue), var(--accent));
+  box-shadow: 0 0 10px var(--accent-glow);
 }

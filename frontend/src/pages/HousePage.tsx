@@ -1,7 +1,6 @@
 import { useBoilerStatus, useMixers } from '../api/hooks'
 import { StatusPill } from '../components/StatusPill'
 import { HOUSE_VIEWS } from '../house/houseViews'
-import { ViewSwitcher } from '../house/ViewSwitcher'
 import styles from './HousePage.module.css'
 
 export function HousePage({ viewId }: { viewId: string }) {
@@ -19,7 +18,6 @@ export function HousePage({ viewId }: { viewId: string }) {
         outdoorTemperature={status.data?.outdoorTemperature}
         showBoiler={view.boilerInfo}
       />
-      <ViewSwitcher activeId={view.id} />
       <view.Component />
     </div>
   )

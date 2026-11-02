@@ -37,7 +37,7 @@ export function BoilerSchematic({ status, mixers }: BoilerSchematicProps) {
       role="group"
       aria-label="Schemat instalacji grzewczej"
     >
-      <rect x={HOPPER.x + HOPPER.width} y={232} width={BOILER.x - HOPPER.x - HOPPER.width} height={16} rx={8} fill="#dfe5f3" />
+      <rect x={HOPPER.x + HOPPER.width} y={232} width={BOILER.x - HOPPER.x - HOPPER.width} height={16} rx={8} fill="#3a2a78" />
       <FuelHopper levelPercent={status?.fuelLevel} />
       <Device x={feederX} y={240} label="Podajnik" on={status?.feeder} kind="auger" />
       <Device x={feederX} y={175} label="Dmuchawa" on={status?.blower} kind="fan" labelPosition="above" />

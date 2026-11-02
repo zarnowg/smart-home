@@ -3,8 +3,8 @@
   width: 100%;
   height: auto;
   padding: 16px;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
@@ -19,26 +19,26 @@
 }
 
 .room {
-  fill: #ffffff;
-  stroke: #e6ebf5;
+  fill: var(--surface-hi);
+  stroke: var(--line);
   stroke-width: 1.5;
-  filter: drop-shadow(0 6px 10px rgba(80, 100, 150, 0.12));
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
 }
 
 .staircase {
-  fill: #e9edfb;
+  fill: var(--surface-lo);
 }
 
 .steps {
   fill: none;
-  stroke: #cfd7f1;
+  stroke: var(--line);
   stroke-width: 3;
   stroke-linecap: round;
 }
 
 .halo {
   paint-order: stroke;
-  stroke: #e9edfb;
+  stroke: var(--surface-lo);
   stroke-width: 8px;
   stroke-linejoin: round;
 }

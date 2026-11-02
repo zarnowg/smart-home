@@ -1,7 +1,7 @@
 .container {
   position: relative;
   width: 100%;
-  max-width: 836px;
+  max-width: 1003px;
   margin: 0 auto;
   aspect-ratio: 720 / 660;
 }
@@ -15,90 +15,146 @@
 }
 
 .plateTop {
-  fill: rgba(255, 255, 255, 0.75);
-  stroke: #dfe5f2;
+  fill: rgba(79, 195, 255, 0.38);
+  stroke: rgba(79, 195, 255, 0.8);
+  filter: drop-shadow(0 0 14px rgba(79, 195, 255, 0.45));
 }
 
 .plateSide {
-  fill: #dfe4f1;
+  fill: #1a2a6a;
+}
+
+.grid line {
+  stroke: rgba(123, 140, 240, 0.4);
+  stroke-width: 1;
 }
 
 .glassBack {
-  fill: rgba(196, 208, 244, 0.45);
-  stroke: #c9d3ee;
+  fill: rgba(236, 75, 200, 0.05);
+  stroke: rgba(236, 75, 200, 0.3);
 }
 
 .glassFront {
-  fill: rgba(220, 229, 252, 0.25);
-  stroke: #a9b8e0;
+  fill: rgba(79, 195, 255, 0.05);
+  stroke: rgba(79, 195, 255, 0.5);
   stroke-dasharray: 4 4;
 }
 
 .wallLeft {
-  fill: #f6f8fd;
-  stroke: #e1e6f2;
+  fill: #3b1d7a;
+  stroke: #7b8cf0;
+  stroke-width: 1.5;
 }
 
 .wallRight {
-  fill: #e4e9f5;
-  stroke: #d8deee;
+  fill: #2a1359;
+  stroke: #7b8cf0;
+  stroke-width: 1.5;
 }
 
 .slab {
-  stroke: #d3daea;
+  stroke: rgba(123, 140, 240, 0.6);
   stroke-width: 1.5;
 }
 
 .roofFront {
-  fill: #ffffff;
-  stroke: #dfe5f2;
+  fill: #6f82e8;
+  stroke: #a9b6ff;
+  stroke-width: 1.5;
 }
 
 .roofBack {
-  fill: #eef1f8;
-  stroke: #dfe5f2;
+  fill: #5266c9;
+  stroke: #a9b6ff;
+  stroke-width: 1.5;
 }
 
 .window {
-  fill: #d7e1f7;
-  stroke: #ffffff;
+  fill: rgba(236, 75, 200, 0.12);
+  stroke: #ec4bc8;
   stroke-width: 2;
+  filter: drop-shadow(0 0 4px rgba(236, 75, 200, 0.7));
 }
 
 .windowWarm {
-  fill: #ffe2bf;
-  stroke: #ffffff;
+  fill: rgba(255, 190, 120, 0.85);
+  stroke: #ec4bc8;
   stroke-width: 2;
-  filter: drop-shadow(0 0 6px rgba(255, 170, 90, 0.6));
+  filter: drop-shadow(0 0 9px rgba(255, 150, 90, 0.85));
 }
 
 .door {
-  fill: #cfd8ee;
-  stroke: #ffffff;
+  fill: rgba(236, 75, 200, 0.1);
+  stroke: #ec4bc8;
   stroke-width: 2;
+  filter: drop-shadow(0 0 4px rgba(236, 75, 200, 0.7));
 }
 
 .boxTop,
 .boxLeft,
 .boxRight {
-  stroke: #cdd5ea;
+  stroke: #ec4bc8;
   stroke-linejoin: round;
 }
 
 .boxTop {
-  fill: #ffffff;
+  fill: #4b2a94;
 }
 
 .boxLeft {
-  fill: #f4f6fc;
+  fill: #3b1d7a;
 }
 
 .boxRight {
-  fill: #dfe5f3;
+  fill: #2a1359;
+}
+
+.pin {
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.2s;
+}
+
+.pinBody {
+  fill: #ec4bc8;
+  stroke: #ff8fe3;
+  stroke-width: 1;
+  filter: drop-shadow(0 0 7px rgba(236, 75, 200, 0.75));
+}
+
+.pinShadow {
+  fill: #3b1d7a;
+}
+
+.pinIcon {
+  fill: #ffffff;
+}
+
+.pin:hover .pinBody,
+.pin:focus-visible .pinBody,
+.pinActive .pinBody {
+  fill: #ff6fd8;
+  stroke: #ffffff;
+  filter: drop-shadow(0 0 12px rgba(255, 110, 220, 1));
+}
+
+.pinLine {
+  stroke: #ec4bc8;
+  stroke-width: 1.2;
+}
+
+.pinDot {
+  fill: #ffd6f4;
+  filter: drop-shadow(0 0 5px #ec4bc8);
+}
+
+.pinBeam {
+  fill: url(#pin-beam);
+  pointer-events: none;
 }
 
 .smoke {
-  fill: rgba(200, 208, 225, 0.7);
+  fill: rgba(190, 170, 240, 0.5);
   transform-box: fill-box;
   transform-origin: center;
   animation: smoke 3s ease-out infinite;
@@ -113,14 +169,15 @@
 }
 
 .calloutLine {
-  stroke: #b7c0d4;
+  stroke: rgba(236, 75, 200, 0.5);
   stroke-width: 1;
 }
 
 .calloutDot {
   fill: var(--accent);
-  stroke: #ffffff;
+  stroke: var(--bg);
   stroke-width: 2;
+  filter: drop-shadow(0 0 4px var(--accent-glow));
 }
 
 .floorLink {
@@ -134,7 +191,7 @@
 
 .floorLink:hover polygon,
 .floorLink:focus-visible polygon {
-  fill: rgba(43, 191, 174, 0.12);
+  fill: rgba(236, 75, 200, 0.12);
 }
 
 .label {

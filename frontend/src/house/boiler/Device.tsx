@@ -48,7 +48,7 @@ function labelProps(position: LabelPosition): SVGProps<SVGTextElement> {
 }
 
 export function Device({ x, y, label, on, kind = 'pump', labelPosition = 'below', name = label }: DeviceProps) {
-  const color = on ? '#2bbfae' : '#a3acc2'
+  const color = on ? '#4fd8ff' : '#7a6bb8'
   return (
     <g transform={`translate(${x} ${y})`} role="img" aria-label={`${name}: ${stateText(on)}`}>
       <circle className={styles.device} r={RADIUS} stroke={color} />

@@ -26,7 +26,7 @@ export function BufferTank({ upperTemperature, lowerTemperature }: BufferTankPro
       <text className={styles.label} x={center} y={y - 10} textAnchor="middle">
         Bufor
       </text>
-      <rect x={x} y={y} width={width} height={height} rx={36} fill={`url(#${gradientId})`} stroke="#ffffff" strokeWidth={4} className={styles.node} style={{ fill: `url(#${gradientId})` }} />
+      <rect x={x} y={y} width={width} height={height} rx={36} fill={`url(#${gradientId})`} stroke="#4d3d94" strokeWidth={4} className={styles.node} style={{ fill: `url(#${gradientId})` }} />
       <text className={`${styles.value} ${styles.light}`} x={center} y={y + 40} textAnchor="middle">
         {upper}
       </text>

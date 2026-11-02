@@ -16,3 +16,22 @@ export function BoltIcon() {
     </svg>
   )
 }
+
+export function GaugeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M12 3a9 9 0 1 0 9 9 9 9 0 0 0-9-9Zm0 2a7 7 0 0 1 6.3 4h-2.1l-1.6 1.1A3 3 0 1 0 15 12h2l1.9-.1A7 7 0 1 1 12 5Z"
+      />
+    </svg>
+  )
+}
+
+export function HomeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M12 3 2.5 11.5h2.7V20h5.1v-5.5h3.4V20h5.1v-8.5h2.7L12 3Z" />
+    </svg>
+  )
+}

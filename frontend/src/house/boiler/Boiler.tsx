@@ -17,7 +17,7 @@ export function Boiler({ temperature, flueGasTemperature, oxygenPercent, powerPe
   const center = x + width / 2
   return (
     <g>
-      <rect x={x + width - 40} y={0} width={20} height={y} rx={4} fill="#dfe5f3" />
+      <rect x={x + width - 40} y={0} width={20} height={y} rx={4} fill="#3a2a78" />
       <text className={styles.label} x={x + width - 12} y={18}>
         Spaliny <tspan className={styles.value}>{formatTemperature(flueGasTemperature)}</tspan>
       </text>
@@ -42,7 +42,7 @@ export function Boiler({ temperature, flueGasTemperature, oxygenPercent, powerPe
       <text className={styles.label} x={center} y={y + 84} textAnchor="middle">
         Moc {formatPercent(powerPercent)}
       </text>
-      <rect x={x + 25} y={y + 100} width={width - 50} height={95} rx={16} fill="#27304a" />
+      <rect x={x + 25} y={y + 100} width={width - 50} height={95} rx={16} fill="#0f0826" />
       <Flame x={center} baseY={y + 190} powerPercent={powerPercent} />
       <circle
         cx={x + 35}

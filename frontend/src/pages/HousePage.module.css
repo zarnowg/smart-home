@@ -16,7 +16,8 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #ffffff;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
   box-shadow: var(--shadow);
   color: var(--text);
   text-decoration: none;
@@ -39,7 +40,8 @@
   margin-left: auto;
   padding: 8px 16px;
   border-radius: 999px;
-  background: #ffffff;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
   box-shadow: var(--shadow);
   text-decoration: none;
 }
