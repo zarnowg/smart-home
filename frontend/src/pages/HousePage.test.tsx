@@ -51,21 +51,21 @@ describe('HousePage', () => {
     expect(screen.getByText('-2,5 °C')).toBeTruthy()
   })
 
-  it('givenCalloutLink_whenClicked_thenShowsFloorPlanWithRooms', async () => {
+  it('givenCalloutLinks_whenRendered_thenLinkToHistoryOfTheirParameter', async () => {
     // given
     mockApi({
       '/api/boiler/status': () => Response.json(BOILER_STATUS),
       '/api/boiler/mixers/details': () => Response.json([MIXER]),
     })
-    renderAt('/dom/ogrzewanie')
 
     // when
-    fireEvent.click(await screen.findByRole('link', { name: 'Mieszacz 2 → Parter: 35,5 °C, zadana 40 °C, otwarcie zaworu 30 %' }))
+    renderAt('/dom/ogrzewanie')
 
     // then
-    const plan = await screen.findByRole('group', { name: 'Plan: Parter' })
-    expect(within(plan).getAllByText(/^Pokój \d$/)).toHaveLength(5)
-    expect(within(plan).getByText('Klatka schodowa')).toBeTruthy()
+    const mixer = await screen.findByRole('link', { name: /^Mieszacz 2 → Parter/ })
+    expect(mixer.getAttribute('href')).toBe('/historia?parametr=mieszacze')
+    expect(screen.getByRole('link', { name: /^Kocioł:/ }).getAttribute('href')).toBe('/historia?parametr=kociol')
+    expect(screen.getByRole('link', { name: /^Ciepła woda:/ }).getAttribute('href')).toBe('/historia?parametr=cwu')
   })
 
   it('givenHouseScene_whenFloorClicked_thenShowsFloorPlan', async () => {

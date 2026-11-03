@@ -3,7 +3,7 @@ import type { BoilerStatus, MixerStatus } from '../../../api/types'
 import { formatPercent, formatTemperature } from '../../../format'
 import { findMixer } from '../../heating'
 import { HouseCards } from '../../HouseCards'
-import { BASEMENT_ID, circuitForFloor, LIVING_FLOORS } from '../../houseConfig'
+import { circuitForFloor, LIVING_FLOORS } from '../../houseConfig'
 import type { Callout } from '../../scene/geometry'
 import { HouseScene } from '../../scene/HouseScene'
 import styles from './HeatingView.module.css'
@@ -48,7 +48,7 @@ function buildCallouts(status: BoilerStatus | undefined, mixers: MixerStatus[] |
         value: temperature,
         target,
         extra: <ValveGauge percent={mixer?.valvePercent} color={circuit.color} />,
-        to: `/dom/${floor.id}`,
+        to: '/historia?parametr=mieszacze',
         ariaLabel: `${withTarget(`Mieszacz ${circuit.mixerId} → ${floor.name}: ${temperature}`, target)}, otwarcie zaworu ${formatPercent(mixer?.valvePercent)}`,
       },
     ]
@@ -65,7 +65,7 @@ function buildCallouts(status: BoilerStatus | undefined, mixers: MixerStatus[] |
       value: formatTemperature(status?.boilerTemperature),
       target: boilerTarget,
       label: `Kocioł · ${formatPercent(status?.boilerPowerPercent)}`,
-      to: `/dom/${BASEMENT_ID}`,
+      to: '/historia?parametr=kociol',
       ariaLabel: withTarget(`Kocioł: ${formatTemperature(status?.boilerTemperature)}`, boilerTarget),
     },
     {
@@ -76,7 +76,7 @@ function buildCallouts(status: BoilerStatus | undefined, mixers: MixerStatus[] |
       value: formatTemperature(status?.hotWaterTemperature),
       target: hotWaterTarget,
       label: 'Ciepła woda',
-      to: `/dom/${BASEMENT_ID}`,
+      to: '/historia?parametr=cwu',
       ariaLabel: withTarget(`Ciepła woda: ${formatTemperature(status?.hotWaterTemperature)}`, hotWaterTarget),
     },
   ]

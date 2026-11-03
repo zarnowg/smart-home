@@ -1,4 +1,4 @@
-import type { BoilerStatus, MixerStatus } from './types'
+import type { BoilerStatus, HistoryPoint, MixerStatus } from './types'
 
 export class ApiError extends Error {
   readonly status: number
@@ -20,3 +20,16 @@ async function fetchJson<T>(url: string): Promise<T> {
 export const getBoilerStatus = () => fetchJson<BoilerStatus>('/api/boiler/status')
 
 export const getMixers = () => fetchJson<MixerStatus[]>('/api/boiler/mixers/details')
+
+export interface HistoryQuery {
+  metric: string
+  sourceId: string
+  from: string
+  to: string
+  bucketMinutes: number
+}
+
+export const getHistory = ({ metric, sourceId, from, to, bucketMinutes }: HistoryQuery) => {
+  const params = new URLSearchParams({ sourceId, from, to, bucketMinutes: String(bucketMinutes) })
+  return fetchJson<HistoryPoint[]>(`/api/history/${encodeURIComponent(metric)}?${params}`)
+}

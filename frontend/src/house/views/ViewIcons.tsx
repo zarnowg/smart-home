@@ -35,3 +35,11 @@ export function HomeIcon() {
     </svg>
   )
 }
+
+export function ChartIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M3 20V4h2v14h16v2H3Zm4-4.5 3.5-5 3 3L19 6l1.6 1.2-6.4 8.6-3-3-2.6 3.7L7 15.5Z" />
+    </svg>
+  )
+}

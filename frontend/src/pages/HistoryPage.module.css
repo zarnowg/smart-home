@@ -1,0 +1,156 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.chips,
+.ranges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ranges {
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+}
+
+.chip,
+.range {
+  padding: 8px 16px;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: var(--tile);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    background 0.2s,
+    box-shadow 0.2s;
+}
+
+.range {
+  padding: 6px 14px;
+  border-color: transparent;
+  background: transparent;
+}
+
+.chip:hover,
+.range:hover {
+  color: var(--text);
+}
+
+.chipActive,
+.chipActive:hover {
+  color: #ffffff;
+  background: var(--accent-soft);
+  border-color: rgba(236, 75, 200, 0.6);
+  box-shadow: 0 0 16px rgba(236, 75, 200, 0.35);
+}
+
+.rangeActive,
+.rangeActive:hover {
+  color: #ffffff;
+  background: var(--surface-hi);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px;
+  border-radius: var(--radius);
+  background: var(--card);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stat {
+  display: flex;
+  min-width: 200px;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--tile);
+}
+
+.statName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.swatch {
+  width: 18px;
+  height: 0;
+  border-top: 3px solid currentColor;
+  border-radius: 2px;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.swatchDashed {
+  border-top-style: dashed;
+  border-top-width: 2px;
+  box-shadow: none;
+}
+
+.statValue {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.statRange {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.chart {
+  display: grid;
+  height: 380px;
+  place-items: center;
+}
+
+.message {
+  margin: 0;
+  color: var(--muted);
+}
+
+@media (max-width: 720px) {
+  .chart {
+    height: 300px;
+  }
+}

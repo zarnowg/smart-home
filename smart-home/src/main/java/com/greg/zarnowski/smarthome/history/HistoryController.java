@@ -36,7 +36,11 @@ public class HistoryController {
             @PathVariable String metric,
             @RequestParam(defaultValue = "1") String sourceId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to) {
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to,
+            @RequestParam(required = false) Integer bucketMinutes) {
+        if (bucketMinutes != null && bucketMinutes < 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "bucketMinutes must be positive");
+        }
         LocalDateTime end = to != null ? to : LocalDateTime.now(clock);
         LocalDateTime start = from != null ? from : end.minusDays(1);
         if (start.isAfter(end)) {
@@ -45,6 +49,7 @@ public class HistoryController {
         if (Duration.between(start, end).compareTo(MAX_RANGE) > 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Range is limited to 31 days");
         }
-        return repository.find(metric, sourceId, start, end);
+        List<HistoryPoint> points = repository.find(metric, sourceId, start, end);
+        return bucketMinutes == null ? points : HistoryBuckets.average(points, Duration.ofMinutes(bucketMinutes));
     }
 }

@@ -5,6 +5,7 @@ import { BoilerPage } from './pages/BoilerPage'
 import { FloorPage } from './pages/FloorPage'
 import { Sidebar } from './components/Sidebar'
 import { DEFAULT_VIEW_PATH, HOUSE_VIEWS, housePath } from './house/houseViews'
+import { HistoryPage } from './pages/HistoryPage'
 import { HousePage } from './pages/HousePage'
 
 const queryClient = new QueryClient({
@@ -31,6 +32,7 @@ export default function App() {
               ))}
               <Route path="/dom/:floorId" element={<FloorPage />} />
               <Route path="/piec" element={<BoilerPage />} />
+              <Route path="/historia" element={<HistoryPage />} />
               <Route path="*" element={<Navigate to={DEFAULT_VIEW_PATH} replace />} />
             </Routes>
           </main>

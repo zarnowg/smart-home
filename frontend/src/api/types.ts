@@ -52,3 +52,8 @@ export interface MixerStatus {
   valvePercent: number | null
   actuator: ActuatorState | null
 }
+
+export interface HistoryPoint {
+  time: string
+  value: number | null
+}

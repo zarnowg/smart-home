@@ -6,6 +6,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.greg.zarnowski.smarthome.boiler.BoilerStatus;
+import com.greg.zarnowski.smarthome.boiler.BoilerStatusService;
 import com.greg.zarnowski.smarthome.boiler.MixerStatus;
 import com.greg.zarnowski.smarthome.boiler.MixerStatusService;
 import java.time.Clock;
@@ -104,5 +106,69 @@ class HistoryTest {
         assertThat(samples.get(0).metric()).isEqualTo("mixer.valvePercent");
         assertThat(samples.get(0).sourceId()).isEqualTo("1");
         assertThat(samples.get(0).value()).isEqualTo(17.0);
+    }
+
+    @Test
+    void givenBoilerStatusWithMissingValues_whenCollect_thenSavesOnlyAvailableMetrics() {
+        // given
+        BoilerStatusService statusService = mock(BoilerStatusService.class);
+        when(statusService.getStatus())
+                .thenReturn(new BoilerStatus(
+                        65.4, null, null, -2.5, null, null, null, null, null, 80, null, null, null, null, null, null,
+                        null, null, 45, null, null));
+
+        // when
+        List<MetricSample> samples = new BoilerMetricCollector(statusService, CLOCK).collect();
+
+        // then
+        assertThat(samples)
+                .extracting(MetricSample::metric, MetricSample::value)
+                .containsExactlyInAnyOrder(
+                        org.assertj.core.groups.Tuple.tuple("boiler.temperature", 65.4),
+                        org.assertj.core.groups.Tuple.tuple("outdoor.temperature", -2.5),
+                        org.assertj.core.groups.Tuple.tuple("boiler.powerPercent", 45.0),
+                        org.assertj.core.groups.Tuple.tuple("fuel.levelPercent", 80.0));
+    }
+
+    @Test
+    void givenMixers_whenCollectTemperatures_thenCreatesCurrentAndTargetSamples() {
+        // given
+        MixerStatusService mixerService = mock(MixerStatusService.class);
+        when(mixerService.getMixers())
+                .thenReturn(List.of(
+                        new MixerStatus(1, 30.5, 32.0, false, true, 17, "STOP"),
+                        new MixerStatus(2, 28.0, null, true, true, null, "STOP")));
+
+        // when
+        List<MetricSample> samples = new MixerTemperatureCollector(mixerService, CLOCK).collect();
+
+        // then
+        assertThat(samples)
+                .extracting(MetricSample::metric, MetricSample::sourceId, MetricSample::value)
+                .containsExactlyInAnyOrder(
+                        org.assertj.core.groups.Tuple.tuple("mixer.temperature", "1", 30.5),
+                        org.assertj.core.groups.Tuple.tuple("mixer.targetTemperature", "1", 32.0),
+                        org.assertj.core.groups.Tuple.tuple("mixer.temperature", "2", 28.0));
+    }
+
+    @Test
+    void givenPointsInBuckets_whenAverage_thenReturnsMeanPerBucketAndNullForEmptyBucket() {
+        // given
+        LocalDateTime base = LocalDateTime.of(2026, 11, 1, 10, 0);
+        List<HistoryPoint> points = List.of(
+                new HistoryPoint(base, 10.0),
+                new HistoryPoint(base.plusMinutes(4), 20.0),
+                new HistoryPoint(base.plusMinutes(5), null),
+                new HistoryPoint(base.plusMinutes(10), 40.0));
+
+        // when
+        List<HistoryPoint> result = HistoryBuckets.average(points, Duration.ofMinutes(5));
+
+        // then
+        assertThat(result)
+                .containsExactly(
+                        new HistoryPoint(base, 15.0),
+                        new HistoryPoint(base.plusMinutes(5), null),
+                        new HistoryPoint(base.plusMinutes(10), 40.0));
     }
 }

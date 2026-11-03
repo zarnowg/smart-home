@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { HOUSE_VIEWS, housePath } from '../house/houseViews'
-import { GaugeIcon, HomeIcon } from '../house/views/ViewIcons'
+import { ChartIcon, GaugeIcon, HomeIcon } from '../house/views/ViewIcons'
 import styles from './Sidebar.module.css'
 
 interface SidebarItem {
@@ -28,6 +28,7 @@ const ITEMS: readonly SidebarItem[] = [
     }),
   ),
   { id: 'piec', name: 'Piec', to: '/piec', Icon: GaugeIcon, isActive: (pathname) => pathname === '/piec' },
+  { id: 'historia', name: 'Historia', to: '/historia', Icon: ChartIcon, isActive: (pathname) => pathname === '/historia' },
 ]
 
 export function Sidebar() {
